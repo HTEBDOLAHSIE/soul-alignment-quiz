@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Soul Alignment Quiz</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 2rem; background: #f4f0f8; color: #333; }
+    fieldset { margin-bottom: 1.5rem; background: #fff; padding: 1rem; border-radius: 0.5rem; border: 1px solid #ccc; }
+    button { padding: 0.7rem 1.5rem; background: #6a4dad; color: white; border: none; border-radius: 0.4rem; cursor: pointer; }
+    .result-box { margin-top: 2rem; background: #fff9f5; padding: 1rem; border-left: 4px solid #f0846c; border-radius: 0.5rem; display: none; }
+    .result-box img { width: 60px; vertical-align: middle; margin-right: 10px; }
+  </style>
+  <script>
+    function submitQuiz(event) {
+      event.preventDefault();
+      const formData = new FormData(document.getElementById("alignmentQuiz"));
+
+      const responses = {
+        emotional: formData.get("emotional"),
+        action: formData.get("action"),
+        intuition: formData.get("intuition"),
+        pleasing: formData.get("pleasing"),
+        joy: formData.get("joy")
+      };
+
+      let score = 0;
+      const scoring = {
+        emotional: { regularly: 0, often: 1, rarely: 2, never: 3 },
+        action: { blocked: 0, frustrated: 1, sometimes: 2, clear: 3 },
+        intuition: { disconnected: 0, unclear: 1, doubt: 2, connected: 3 },
+        pleasing: { always: 0, often: 1, sometimes: 2, rarely: 3 },
+        joy: { cant_remember: 0, months: 1, weeks: 2, now: 3 }
+      };
+
+      for (let key in responses) {
+        score += scoring[key][responses[key]];
+      }
+
+      const resultBox = document.getElementById("quizResult");
+      let resultText = "";
+
+      if (score <= 5) {
+        resultText = "<img src='https://cdn-icons-png.flaticon.com/512/4140/4140048.png' alt='Fog Walker Icon'><strong>The Fog Walker:</strong> You’re moving through a time of deep soul disconnection. Don’t worry—this is a sacred invitation to pause, clear your energy, and return to what lights you up. Consider reconnecting with your inner child or engaging in gentle spiritual cleansing.";
+      } else if (score <= 8) {
+        resultText = "<img src='https://cdn-icons-png.flaticon.com/512/4351/4351901.png' alt='Overgiver Icon'><strong>The Overgiver:</strong> You give so much of your light to others that your own flame may feel dim. This is a sign to reset your boundaries and begin nourishing yourself as deeply as you do others.";
+      } else if (score <= 11) {
+        resultText = "<img src='https://cdn-icons-png.flaticon.com/512/1680/1680389.png' alt='Spark Seeker Icon'><strong>The Spark Seeker:</strong> You’re awakening and craving more joy, clarity, and connection. You're almost aligned—just a few shifts will bring your soul fully back online. Keep going!";
+      } else {
+        resultText = "<img src='https://cdn-icons-png.flaticon.com/512/1041/1041916.png' alt='Aligned One Icon'><strong>The Aligned One:</strong> You are shining in your soul truth! Keep nurturing this alignment through daily rituals, gratitude, and acts of love. Celebrate your journey.";
+      }
+
+      resultBox.innerHTML = resultText;
+      resultBox.style.display = "block";
+    }
+  </script>
+</head>
+<body>
+  <h1>Are You in Alignment With Your Soul?</h1>
+  <form id="alignmentQuiz" onsubmit="submitQuiz(event)">
+    <fieldset>
+      <legend>1. Do you often feel emotionally numb or reactive?</legend>
+      <label><input type="radio" name="emotional" value="regularly" required> Yes, regularly</label><br>
+      <label><input type="radio" name="emotional" value="often"> Sometimes</label><br>
+      <label><input type="radio" name="emotional" value="rarely"> Rarely</label><br>
+      <label><input type="radio" name="emotional" value="never"> Never</label>
+    </fieldset>
+
+    <fieldset>
+      <legend>2. Do you find it hard to take inspired action?</legend>
+      <label><input type="radio" name="action" value="blocked" required> I feel blocked all the time</label><br>
+      <label><input type="radio" name="action" value="frustrated"> I delay often and feel frustrated</label><br>
+      <label><input type="radio" name="action" value="sometimes"> Occasionally, but I push through</label><br>
+      <label><input type="radio" name="action" value="clear"> No, I act with clarity</label>
+    </fieldset>
+
+    <fieldset>
+      <legend>3. Do you struggle to connect with your intuition?</legend>
+      <label><input type="radio" name="intuition" value="disconnected" required> Yes, I feel completely disconnected</label><br>
+      <label><input type="radio" name="intuition" value="unclear"> Sometimes unclear</label><br>
+      <label><input type="radio" name="intuition" value="doubt"> Occasionally doubt</label><br>
+      <label><input type="radio" name="intuition" value="connected"> Consistently connected</label>
+    </fieldset>
+
+    <fieldset>
+      <legend>4. Do you sacrifice your own needs to be liked?</legend>
+      <label><input type="radio" name="pleasing" value="always" required> Almost always</label><br>
+      <label><input type="radio" name="pleasing" value="often"> Often</label><br>
+      <label><input type="radio" name="pleasing" value="sometimes"> Sometimes</label><br>
+      <label><input type="radio" name="pleasing" value="rarely"> Rarely or never</label>
+    </fieldset>
+
+    <fieldset>
+      <legend>5. When did you last feel truly joyful or inspired?</legend>
+      <label><input type="radio" name="joy" value="cant_remember" required> I can’t remember</label><br>
+      <label><input type="radio" name="joy" value="months"> Months ago</label><br>
+      <label><input type="radio" name="joy" value="weeks"> A few weeks ago</label><br>
+      <label><input type="radio" name="joy" value="now"> Recently or now</label>
+    </fieldset>
+
+    <fieldset>
+      <legend>Would you like to receive your results and a free alignment ritual?</legend>
+      <input type="email" name="email" placeholder="Your email (optional)" />
+    </fieldset>
+
+    <button type="submit">Submit Quiz</button>
+  </form>
+
+  <div id="quizResult" class="result-box"></div>
+</body>
+</html>
